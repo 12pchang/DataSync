@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    /* background: rgb(215,239,252);
+    background: linear-gradient(90deg, rgba(215,239,252,1) 0%, rgba(244,248,252,1) 100%); */
+}
+
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 50px;
+    background-color: white;
+}
+
+
+.sign-in-btn {
+    background-color: #2D8CDB; 
+    border-radius: 20px; 
+    padding: 10px 20px; 
+    font-weight: bold; 
+    border: none; 
+    transition: 0.3s ease-in-out;
+}
+
+.sign-in-btn:hover {
+    background-color: #2673c9;
+}
+
+
+.brand-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo-icon {
+    height: 30px;
+}
+
+.logo-text {
+    font-size: 22px;
+    font-weight: bold;
+    color: #2673c9; 
+}
+
+.highlight {
+    color: #fdbb30; 
+}
+
+
+.landing-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 80px 50px;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 50px;
+    flex-wrap: wrap;
+}
+
+
+.text {
+    flex: 1;
+    max-width: 50%;
+}
+
+.text h1 {
+    font-size: 48px;
+    font-weight: bold;
+    color: #1f2d3d;
+}
+
+.text p {
+    font-size: 20px;
+    color: #4a4a4a;
+    line-height: 1.6;
+}
+
+
+.text .sign-in-btn {
+    display: none; 
+    margin-top: 20px;
+}
+
+.image {
+    flex: 1;
+    text-align: right;
+}
+
+.image img {
+    max-width: 100%;
+    height: auto;
+}
+
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 15px 30px;
+    }
+
+    .landing-section {
+        flex-direction: column;
+        text-align: center;
+        padding: 50px 20px;
+    }
+
+    .text {
+        max-width: 100%;
+    }
+
+    .image {
+        text-align: center;
+    }
+
+    .text .sign-in-btn {
+        display: inline-block; 
+    }
+
+    .auth-buttons {
+        display: flex;
+        gap: 10px;
+    }
+    
+    .login-btn {
+        border-radius: 20px;
+        padding: 8px 20px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+    
+    .register-btn {
+        border-radius: 20px;
+        padding: 8px 20px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+    
+    .register-btn:hover {
+        background-color: #2673c9;
+    }
+    
+    @media (max-width: 768px) {
+        .auth-buttons {
+            flex-direction: column;
+            gap: 5px;
+        }
+    }
+
+
+}
+
+
