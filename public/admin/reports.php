@@ -18,7 +18,7 @@
   <?php include '../../includes/sidebar.php'; ?>
 <?php include '../../includes/header.php'; ?>
 
-    <div class="main-content mt-4">
+    <div class="main-content mt-5">
       <div class="content-wrapper">
 
         <div class="content-header">

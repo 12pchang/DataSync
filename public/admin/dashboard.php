@@ -88,7 +88,7 @@
 <?php include '../../includes/header.php'; ?>
 
     
-  <div class="main-content" id="mainContent">
+  <div class="main-content mt-4" id="mainContent">
     <div class="row mb-4 align-items-center">
    
     </div>

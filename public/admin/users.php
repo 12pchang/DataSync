@@ -15,7 +15,7 @@
 <?php include '../../includes/header.php'; ?>
 
 
-  <div class="main-content" id="mainContent">
+  <div class="main-content mt-4" id="mainContent">
     <div class="row mb-4 align-items-center">
       <div class="col-md-6 mt-4">
         <h2>User Management</h2>
