@@ -23,6 +23,7 @@
 </nav>
 
 <?php  
+session_start();
     include '../includes/db.php'; 
     include '../public/login.php'; 
     require('../includes/auth.php');
