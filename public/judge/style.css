@@ -1,0 +1,406 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+body {
+  background-color: #f8f9fa;
+  font-family: "Poppins", sans-serif;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+.app-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #f8f9fa;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  border-right: 1px solid #e5e7eb;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar-header {
+  padding: 15px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.sidebar-header h5 {
+  margin: 0;
+  font-weight: 600;
+  color: #333;
+}
+
+.contestants-list {
+  overflow-y: auto;
+  flex-grow: 1;
+  padding: 10px;
+}
+
+.contestant-img-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  margin-right: 10px;
+}
+
+.contestant-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background-color: white;
+  border-left: 3px solid transparent;
+}
+
+.contestant-item:hover {
+  background-color: #f1f7ff;
+}
+
+.contestant-item.active {
+  background-color: #e6f0ff;
+  border-left: 3px solid #4285f4;
+}
+
+.contestant-img {
+  width: 24px;
+  height: 24px;
+  border-radius: 0;
+  object-fit: cover;
+  margin-right: 12px;
+}
+
+.contestant-info {
+  flex: 1;
+}
+
+.contestant-name {
+  font-weight: 500;
+  font-size: 0.95rem;
+  margin-bottom: 2px;
+  color: #000;
+}
+
+.contestant-number {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.main-content {
+  flex: 1;
+  margin-left: 250px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.scoring-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.event-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.event-subtitle {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-bottom: 0;
+}
+
+.judge-info {
+  display: flex;
+  align-items: center;
+}
+
+.judge-details {
+  text-align: right;
+  margin-right: 12px;
+}
+
+.judge-name {
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.judge-id {
+  font-size: 0.75rem;
+  color: #6c757d;
+}
+
+.judge-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.judge-img:hover {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25);
+}
+
+.scoring-content {
+  flex: 1;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.timer-container {
+  display: flex;
+  align-items: center;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.timer-icon {
+  font-size: 1.5rem;
+  color: #dc3545;
+  margin-right: 12px;
+}
+
+.timer-info {
+  flex: 1;
+}
+
+.timer-label {
+  font-size: 0.8rem;
+  color: #6c757d;
+  margin-bottom: 2px;
+}
+
+.timer-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #dc3545;
+}
+
+.last-saved {
+  text-align: center;
+}
+
+.contestant-header {
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.contestant-header .contestant-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.contestant-header .contestant-number {
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.score-category {
+  margin-bottom: 15px;
+}
+
+.score-input-container {
+  display: flex;
+  align-items: center;
+}
+
+.score-input {
+  flex: 1;
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.score-buttons {
+  display: flex;
+  margin-left: 10px;
+}
+
+.score-btn {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  font-weight: 600;
+  margin-left: 5px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.score-btn:hover {
+  background-color: #e9ecef;
+}
+
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.total-score {
+  display: flex;
+  align-items: baseline;
+  background-color: #f8f9fa;
+  padding: 8px 15px;
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+}
+
+.total-score-label {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-right: 8px;
+}
+
+.total-score-value {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #0d6efd;
+}
+
+.total-score-max {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-left: 2px;
+}
+
+.footer {
+  text-align: center;
+  padding: 15px 0;
+  color: #6c757d;
+  font-size: 0.8rem;
+  margin-top: auto;
+}
+
+.score-summary {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 15px;
+  margin-top: 15px;
+}
+
+.score-summary .row {
+  margin-bottom: 5px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+  .sidebar {
+    width: 200px;
+  }
+
+  .main-content {
+    margin-left: 200px;
+  }
+
+  .navigation-buttons {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .total-score {
+    order: -1;
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .contestants-list {
+    max-height: 200px;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: 15px;
+  }
+
+  .scoring-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .judge-info {
+    margin-top: 15px;
+    align-self: flex-end;
+  }
+
+  .scoring-content {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 576px) {
+  .scoring-content .row > div {
+    margin-bottom: 15px;
+  }
+
+  .navigation-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .navigation-buttons button {
+    margin-bottom: 10px;
+  }
+
+  .total-score {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 15px;
+  }
+}

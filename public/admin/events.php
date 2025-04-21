@@ -28,8 +28,8 @@
                 <input type="text" class="form-control search-input" placeholder="Search events...">
               </div>
             </div>
-           <div class="col-md-4 d-flex justify-content-between mt-3 mt-md-0">
-  <div class="dropdown me-2">
+           <div class="col-md-4 d-flex  mt-3 mt-md-0">
+  <div class="dropdown ">
     <button class="btn btn-outline-secondary dropdown-toggle filter-btn" type="button" id="statusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
       All Status
     </button>
@@ -40,9 +40,11 @@
       <li><a class="dropdown-item" href="#">Completed</a></li>
     </ul>
   </div>
+
   <div class="date-picker-container ">
         <input type="date" class="form-control" id="eventDateFilter">
   </div>
+  
 </div>
 <div class="col-md-4 d-flex justify-content-md-end mt-3 mt-md-0">
   <button class="btn btn-primary" id="addEventBtn">
@@ -57,162 +59,84 @@
 </div>
 </div>
 
+<div class="row events-grid">
+  <!-- Sample Event Card -->
+  <div class="col-md-4 mb-4">
+  <div class="event-card modern-style">
+    <div class="event-img-banner" style="background-image: url('../../public/assets/images/sti.jpg');">
+      <div class="event-date">
+        <span class="day"><?php echo date("j"); ?></span>
+        <span class="month"><?php echo date("F"); ?></span>
+      </div>
+    </div>
+    <div class="event-info">
+      <div class="d-flex justify-content-between align-items-start">
+        <h4 class="event-title mb-1">Mr and Ms Sti</h4>
+        <span class="event-status ongoing">Ongoing</span>
+      </div>
+      <p class="event-time"><?php echo date("g:i A"); ?></p>
+      <div class="event-meta">
+        <span><i class="bi bi-people"></i> 8 Contestants, 3 Judges</span><br>
+        <span><i class="bi bi-clock"></i> Event started</span>
+      </div>
+    </div>
+  </div>
+</div>
 
-        <div class="row events-grid">
-          <div class="col-md-4 mb-4">
-            <div class="event-card">
-              <div class="event-header">
-                <h3 class="event-title">Tagisan ng talino</h3>
-                <span class="event-status ongoing">Ongoing</span>
-              </div>
-              <div class="event-details">
-                <div class="event-detail">
-                  <i class="bi bi-calendar3"></i>
-                  <span>March 16, 2023 - 2:00 PM</span>
-                </div>
-                <div class="event-detail">
-                  <i class="bi bi-people"></i>
-                  <span>12 Contestants, 5 Judges</span>
-                </div>
-                <div class="event-detail">
-                  <i class="bi bi-flag"></i>
-                  <span>Round 2 of 3</span>
-                </div>
-              </div>
-              <div class="event-actions">
-                <button class="btn btn-sm btn-outline-primary w-100">View Details</button>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 mb-4">
-            <div class="event-card">
-              <div class="event-header">
-                <h3 class="event-title">Code fest</h3>
-                <span class="event-status ongoing">Ongoing</span>
-              </div>
-              <div class="event-details">
-                <div class="event-detail">
-                  <i class="bi bi-calendar3"></i>
-                  <span>March 20, 2023 - 4:00 PM</span>
-                </div>
-                <div class="event-detail">
-                  <i class="bi bi-people"></i>
-                  <span>8 Contestants, 3 Judges</span>
-                </div>
-                <div class="event-detail">
-                  <i class="bi bi-clock"></i>
-                  <span>Starts in 5 days</span>
-                </div>
-              </div>
-              <div class="event-actions">
-                <button class="btn btn-sm btn-outline-primary w-100">View Details</button>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 mb-4">
-            <div class="event-card">
-              <div class="event-header">
-                <h3 class="event-title">Mr and Ms STI</h3>
-                <span class="event-status upcoming">Upcoming</span>
-              </div>
-              <div class="event-details">
-                <div class="event-detail">
-                  <i class="bi bi-calendar3"></i>
-                  <span>March 10, 2023 - 1:00 PM</span>
-                </div>
-                <div class="event-detail">
-                  <i class="bi bi-people"></i>
-                  <span>15 Contestants, 4 Judges</span>
-                </div>
-                <div class="event-detail">
-                  <i class="bi bi-trophy"></i>
-                  <span>Winner: Jan Allen</span>
-                </div>
-              </div>
-              <div class="event-actions">
-                <button class="btn btn-sm btn-outline-primary w-100">View Details</button>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 mb-4">
-            <div class="event-card">
-              <div class="event-header">
-                <h3 class="event-title">Travelogue</h3>
-                <span class="event-status completed">Completed</span>
-              </div>
-              <div class="event-details">
-                <div class="event-detail">
-                  <i class="bi bi-calendar3"></i>
-                  <span>March 5, 2023 - 10:00 AM</span>
-                </div>
-                <div class="event-detail">
-                  <i class="bi bi-people"></i>
-                  <span>10 Teams, 6 Judges</span>
-                </div>
-                <div class="event-detail">
-                  <i class="bi bi-trophy"></i>
-                  <span>Winner: Team Logic</span>
-                </div>
-              </div>
-              <div class="event-actions">
-                <button class="btn btn-sm btn-outline-primary w-100">View Details</button>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 mb-4">
-            <div class="event-card">
-              <div class="event-header">
-                <h3 class="event-title">Chef Xpress</h3>
-                <span class="event-status upcoming">Upcoming</span>
-              </div>
-              <div class="event-details">
-                <div class="event-detail">
-                  <i class="bi bi-calendar3"></i>
-                  <span>March 25, 2023 - 9:00 AM</span>
-                </div>
-                <div class="event-detail">
-                  <i class="bi bi-people"></i>
-                  <span>20 Artists, 4 Judges</span>
-                </div>
-                <div class="event-detail">
-                  <i class="bi bi-clock"></i>
-                  <span>Starts in 10 days</span>
-                </div>
-              </div>
-              <div class="event-actions">
-                <button class="btn btn-sm btn-outline-primary w-100">View Details</button>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 mb-4">
-            <div class="event-card">
-              <div class="event-header">
-                <h3 class="event-title">Mix 'n Flair</h3>
-                <span class="event-status upcoming">Upcoming</span>
-              </div>
-              <div class="event-details">
-                <div class="event-detail">
-                  <i class="bi bi-calendar3"></i>
-                  <span>April 2, 2023 - 11:00 AM</span>
-                </div>
-                <div class="event-detail">
-                  <i class="bi bi-people"></i>
-                  <span>25 Participants, 7 Judges</span>
-                </div>
-                <div class="event-detail">
-                  <i class="bi bi-clock"></i>
-                  <span>Starts in 18 days</span>
-                </div>
-              </div>
-              <div class="event-actions">
-                <button class="btn btn-sm btn-outline-primary w-100">View Details</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="footer text-center text-muted small py-3">
+
+<div class="col-md-4 mb-4">
+  <div class="event-card modern-style">
+    <div class="event-img-banner" style="background-image: url('../../public/assets/images/bob.jpg');">
+      <div class="event-date">
+        <span class="day">10</span>
+        <span class="month">MAR</span>
+      </div>
+    </div>
+    <div class="event-info">
+      <div class="d-flex justify-content-between align-items-start">
+        <h4 class="event-title mb-1">Battle of the Bands</h4>
+        <span class="event-status completed">Completed</span>
+      </div>
+      <p class="event-time">4:00 PM</p>
+      <div class="event-meta">
+        <span><i class="bi bi-people"></i> 8 Contestants, 3 Judges</span><br>
+        <span><i class="bi bi-trophy"></i> Winner: Nocturnals</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="col-md-4 mb-4">
+  <div class="event-card modern-style">
+    <div class="event-img-banner" style="background-image: url('../../public/assets/images/hs.jpg');">
+      <div class="event-date">
+        <span class="day">10</span>
+        <span class="month">MAR</span>
+      </div>
+    </div>
+    <div class="event-info">
+      <div class="d-flex justify-content-between align-items-start">
+        <h4 class="event-title mb-1">Hataw Sayaw</h4>
+        <span class="event-status completed">Completed</span>
+      </div>
+      <p class="event-time">8:00 AM</p>
+      <div class="event-meta">
+        <span><i class="bi bi-people"></i> 5 Contestants, 3 Judges</span><br>
+        <span><i class="bi bi-trophy"></i> Winner: SILK 'N SNAP</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+
+
+        <!-- <div class="footer text-center text-muted small py-3">
           © 2025 Event Tabulation System. All rights reserved.
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

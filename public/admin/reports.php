@@ -27,9 +27,9 @@
             <!-- <p class="page-subtitle">View final scores and rankings for: Mr. & Ms. Intramurals 2025</p> -->
           </div>
           <div>
-            <button class="btn btn-primary" id="addReportBtn">
+            <!-- <button class="btn btn-primary" id="addReportBtn">
               <i class="bi bi-plus-circle me-2"></i> Generate New Report
-            </button>
+            </button> -->
           </div>
         </div>
         <div class="content-card">
@@ -44,9 +44,9 @@
               <!-- <button class="btn btn-outline-secondary" id="exportExcelBtn">
                 <i class="bi bi-file-excel me-1"></i> Export Excel
               </button> -->
-              <button class="btn btn-outline-secondary" id="printBtn">
+              <!-- <button class="btn btn-outline-secondary" id="printBtn">
                 <i class="bi bi-printer me-1"></i> Print
-              </button>
+              </button> -->
               <button class="btn btn-outline-secondary filter-btn">
                 <i class="bi bi-funnel me-1"></i> Filter
               </button>

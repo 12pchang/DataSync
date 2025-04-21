@@ -1,4 +1,3 @@
-
 -- Drop if exists 
 DROP DATABASE IF EXISTS DataSync;
 CREATE DATABASE DataSync;
@@ -11,12 +10,10 @@ CREATE TABLE users (
     alias VARCHAR(50),
     email VARCHAR(100) UNIQUE,
     password VARCHAR(255),
-    otp_code VARCHAR(6),
     is_verified TINYINT(1) DEFAULT 0,
     role ENUM('admin', 'judge', 'pending') DEFAULT 'pending',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
 
 -- Events
 CREATE TABLE events (
@@ -26,7 +23,7 @@ CREATE TABLE events (
     date DATE NOT NULL,
     created_by INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (created_by) REFERENCES users(user_id)
+    FOREIGN KEY (created_by) REFERENCES users(id) -- Fixed incorrect reference from users(user_id) to users(id)
 );
 
 -- Rounds
@@ -63,7 +60,6 @@ CREATE TABLE judges (
     event_id INT NOT NULL,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
-    otp_code VARCHAR(10),
     has_scored BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (event_id) REFERENCES events(event_id)
 );
@@ -81,4 +77,18 @@ CREATE TABLE scores (
     FOREIGN KEY (contestant_id) REFERENCES contestants(contestant_id),
     FOREIGN KEY (round_id) REFERENCES event_rounds(round_id),
     FOREIGN KEY (criteria_id) REFERENCES criteria(criteria_id)
+);
+
+-- use this to for temp user pass
+echo password_hash("admin123", PASSWORD_DEFAULT);
+
+-- Admin user
+INSERT INTO users (full_name, alias, email, password, is_verified, role)
+VALUES (
+    'Alice Cutie', 
+    'alice_admin', 
+    'admin@example.com', 
+    '$2y$10$XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX', 
+    1,
+    'admin' -- or  judge 
 );

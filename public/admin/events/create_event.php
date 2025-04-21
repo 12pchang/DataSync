@@ -120,7 +120,8 @@
             </li>
           </ul>
 
-          <div id="eventWizardStepContent" class="tab-content m-5">
+          <div id="eventWizardStepContent" class="tab-content m-5" style="min-height: 500px;">
+
           <div class="tab-pane fade show active" id="overview" role="tabpanel">
             <?php include '../../public/admin/events/modals/overview.php'; ?>
           </div>
