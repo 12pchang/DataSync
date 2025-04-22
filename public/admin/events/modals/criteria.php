@@ -1,16 +1,27 @@
 <div class="mb-4">
   <label for="roundSelect" class="form-label">Select Round</label>
-  <div class="dropdown">
-    <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start round-dropdown" type="button" id="roundDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-      Preliminary Round
+  
+  <!-- Wrapper for dropdown and button -->
+  <div class="d-flex align-items-center">
+    <!-- Smaller Dropdown -->
+    <div class="dropdown flex-grow-1">
+      <button class="btn btn-outline-secondary dropdown-toggle w-auto text-start round-dropdown" type="button" id="roundDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        Preliminary Round
+      </button>
+      <ul class="dropdown-menu w-auto" aria-labelledby="roundDropdown">
+        <li><a class="dropdown-item active" href="#" data-round="preliminary">Preliminary Round</a></li>
+        <li><a class="dropdown-item" href="#" data-round="semifinal">Semi-Final Round</a></li>
+        <li><a class="dropdown-item" href="#" data-round="final">Final Round</a></li>
+      </ul>
+    </div>
+    
+    <!-- Button at the end -->
+    <button class="btn btn-primary ms-2" id="addCriteriaBtn">
+      <i class="bi bi-plus"></i> Add Criteria
     </button>
-    <ul class="dropdown-menu w-100" aria-labelledby="roundDropdown">
-      <li><a class="dropdown-item active" href="#" data-round="preliminary">Preliminary Round</a></li>
-      <li><a class="dropdown-item" href="#" data-round="semifinal">Semi-Final Round</a></li>
-      <li><a class="dropdown-item" href="#" data-round="final">Final Round</a></li>
-    </ul>
   </div>
 </div>
+
 
 <div class="table-responsive">
   <table class="table criteria-table">
@@ -57,10 +68,8 @@
   </table>
 </div>
 
-<div class="d-flex justify-content-between align-items-center mt-3">
-  <button class="btn btn-primary" id="addCriteriaBtn">
-    <i class="bi bi-plus"></i> Add Criteria
-  </button>
+<div class="d-flex justify-content-end align-items-center mt-3">
+
   <div class="total-weight-container">
     Total Weight: <span id="totalWeight">100</span>%
   </div>

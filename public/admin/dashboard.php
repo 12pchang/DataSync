@@ -7,10 +7,12 @@
 <title>DataSync Dashboard</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  
    <link rel="stylesheet" href="../../public/assets/css/dashboard.css">
    <link rel="icon" href="../../public/assets/images/logo1.svg">
    </head>
 <style>
+  
 /* Recent Activity Card Styles */
 .activity-tabs {
   display: flex;

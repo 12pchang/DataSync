@@ -15,35 +15,47 @@
 
   <?php include '../../includes/sidebar.php'; ?>
   <?php include '../../includes/header.php'; ?>
-
-    <div class="main-content mt-4">
-      <div class="content-wrapper">
-        <div class="content-header">
+  <?php date_default_timezone_set('Asia/Manila'); ?>
+  <div class="main-content mt-4">
+  <div class="content-wrapper">
+    <div class="content-header">
+    </div>
+    <div class="search-filters-container mb-4">
+      <div class="row align-items-center">
+        <div class="col-md-4">
+          <div class="search-container">
+            <i class="bi bi-search search-icon"></i>
+            <input type="text" class="form-control search-input" placeholder="Search events...">
+          </div>
         </div>
-        <div class="search-filters-container mb-4">
-          <div class="row align-items-center">
-            <div class="col-md-4">
-              <div class="search-container">
-                <i class="bi bi-search search-icon"></i>
-                <input type="text" class="form-control search-input" placeholder="Search events...">
-              </div>
-            </div>
-           <div class="col-md-4 d-flex  mt-3 mt-md-0">
-  <div class="dropdown ">
-    <button class="btn btn-outline-secondary dropdown-toggle filter-btn" type="button" id="statusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-      All Status
-    </button>
-    <ul class="dropdown-menu" aria-labelledby="statusDropdown">
-      <li><a class="dropdown-item" href="#">All Status</a></li>
-      <li><a class="dropdown-item" href="#">Ongoing</a></li>
-      <li><a class="dropdown-item" href="#">Upcoming</a></li>
-      <li><a class="dropdown-item" href="#">Completed</a></li>
-    </ul>
-  </div>
+        <div class="col-md-4 d-flex mt-3 mt-md-0">
+          <!-- Add spacing class ms-2 to create space between the search bar and the date button -->
+          <div class="dropdown me-2">
+            <button class="btn btn-outline-secondary dropdown-toggle filter-btn" type="button" id="statusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              All Status
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="statusDropdown">
+              <li><a class="dropdown-item" href="#">All Status</a></li>
+              <li><a class="dropdown-item" href="#">Ongoing</a></li>
+              <li><a class="dropdown-item" href="#">Upcoming</a></li>
+              <li><a class="dropdown-item" href="#">Completed</a></li>
+            </ul>
+          </div>
 
-  <div class="date-picker-container ">
-        <input type="date" class="form-control" id="eventDateFilter">
-  </div>
+          <div class="custom-date-btn position-relative d-inline-block">
+            <!-- Label styled as button -->
+            <label for="eventDateFilter" class="btn btn-outline-secondary filter-btn w-100 d-flex align-items-center gap-2" id="dateLabel">
+              <i class="bi bi-calendar3"></i> <!-- Bootstrap calendar icon -->
+              <span>Select Date</span>
+            </label>
+
+            <!-- Invisible date input that opens calendar picker -->
+            <input type="date" id="eventDateFilter" class="position-absolute w-100 h-100" style="opacity: 0; top: 0; left: 0; cursor: pointer;">
+          </div>
+     
+  
+
+
   
 </div>
 <div class="col-md-4 d-flex justify-content-md-end mt-3 mt-md-0">
@@ -65,6 +77,7 @@
   <div class="event-card modern-style">
     <div class="event-img-banner" style="background-image: url('../../public/assets/images/sti.jpg');">
       <div class="event-date">
+        
         <span class="day"><?php echo date("j"); ?></span>
         <span class="month"><?php echo date("F"); ?></span>
       </div>
@@ -141,6 +154,20 @@
     </div>
   </div>
   
+  <script>
+  const dateInput = document.getElementById("eventDateFilter");
+  const dateLabel = document.getElementById("dateLabel").querySelector("span");
+
+  dateInput.addEventListener("change", function () {
+    if (this.value) {
+      const selectedDate = new Date(this.value);
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      dateLabel.textContent = selectedDate.toLocaleDateString(undefined, options);
+    } else {
+      dateLabel.textContent = "Select Date";
+    }
+  });
+</script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../../public/assets/js/events.js"></script>

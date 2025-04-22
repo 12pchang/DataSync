@@ -5,6 +5,7 @@
     <nav class="navbar navbar-expand-lg navbar-light ">
       <div class="container-fluid d-flex justify-content-between w-100"> <!-- Ensures full width and flexbox layout -->
 
+      <i class="bi bi-bell me-3"></i>
         <div class="dropdown ms-auto"> 
           <a href="#" class="d-flex align-items-center text-decoration-none " id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="bi bi-person-circle fs-4 me-2"></i>
