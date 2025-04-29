@@ -1,3 +1,70 @@
+<?php
+// Database connection
+$servername = "localhost"; // Change to your database server
+$username = "root"; // Your MySQL username
+$password = ""; // Your MySQL password
+$dbname = "datasync";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Get form data
+    $first_name = mysqli_real_escape_string($conn, $_POST['first_name']);
+    $middle_name = mysqli_real_escape_string($conn, $_POST['middle_name']);
+    $last_name = mysqli_real_escape_string($conn, $_POST['last_name']);
+    $alias = mysqli_real_escape_string($conn, $_POST['alias']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
+    
+    // Check if the email already exists
+    $check_email_sql = "SELECT * FROM users WHERE email = '$email'";
+    $result = $conn->query($check_email_sql);
+
+    if ($result->num_rows > 0) {
+        // Email already exists, display error message
+        echo "Error: Email is already registered.";
+    } else {
+        // Hash password
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+        // Prepare SQL query to insert data
+        $sql = "INSERT INTO users (full_name, alias, email, password, is_verified, role) 
+                VALUES ('$first_name $middle_name $last_name', '$alias', '$email', '$hashed_password', 0, 'pending')";
+        
+        if ($conn->query($sql) === TRUE) {
+            // If the data is inserted successfully, you can redirect or give a success message
+            echo "New record created successfully";
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
+    }
+}
+
+$conn->close();
+?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- SweetAlert2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.5.2/dist/sweetalert2.min.css" rel="stylesheet">
+
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.5.2/dist/sweetalert2.min.js"></script>
+
+</head>
+<body>
+  
 <!-- Register Modal -->
 <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -148,3 +215,7 @@
     </div>
   </div>
 </div>
+
+</body>
+</html>
+

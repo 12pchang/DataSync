@@ -39,8 +39,8 @@
       <label class="form-label">Logo/Banner</label>
       <div class="upload-area">
         <div class="text-center p-4 border rounded">
-          <button class="btn btn-outline-secondary mb-3" id="uploadBtn">Upload</button>
-          <p class="mb-0 text-muted">Drop image here or click to upload</p>
+        <button type="button" class="btn btn-outline-secondary mb-3" id="uploadBtn">Upload</button>
+        <p class="mb-0 text-muted">Drop image here or click to upload</p>
         </div>
       </div>
     </div>

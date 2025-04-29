@@ -1,7 +1,8 @@
 <!-- Step 2: Rounds -->
 <div class="d-flex justify-content-between align-items-center mb-5">
   <h5 class="mb-0">Rounds Management</h5>
-  <button class="btn btn-primary add-round-btn">
+  
+  <button type="button" class =" btn btn-primary add-round-btn">
     <i class="bi bi-plus"></i> Add Round
   </button>
 </div>
@@ -24,3 +25,4 @@
   </div>
 </div>
 
+<script src="../../public/assets/js/modals/rounds.js"></script>

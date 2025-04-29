@@ -145,7 +145,9 @@ document.addEventListener("DOMContentLoaded", () => {
   
     const contestantName = contestantEl.querySelector(".contestant-name").textContent
     const contestantNumber = contestantEl.querySelector(".contestant-number").textContent
-  
+    const contestantImgSrc = contestantEl.querySelector(".contestant-img").getAttribute("src");
+
+    document.getElementById("currentContestantImg").setAttribute("src", contestantImgSrc);
     document.querySelector(".contestant-header .contestant-name").textContent = contestantName
     document.querySelector(".contestant-header .contestant-number").textContent = contestantNumber
     document.getElementById("confirmContestantName").textContent = contestantName

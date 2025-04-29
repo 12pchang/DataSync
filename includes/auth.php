@@ -33,6 +33,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
 
-    header("Location: ../public/login.php?error=1");
+    // header("Location: ../public/login.php?error=1");
 }
 ?>

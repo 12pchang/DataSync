@@ -279,3 +279,5 @@
     </div>
   </div>
 </div>
+
+<script src="../../public/assets/js/modals/judges.js"></script>

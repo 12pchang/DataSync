@@ -1,6 +1,6 @@
 <?php
 // Set the number of seconds to wait before redirecting
-$wait_time = 5;
+$wait_time = 20;
 
 // The page to redirect to after waiting
 $redirect_url = "../../public/judge/scoring.php";
@@ -19,6 +19,8 @@ $redirect_url = "../../public/judge/scoring.php";
     <meta http-equiv="refresh" content="<?php echo $wait_time; ?>;url=<?php echo $redirect_url; ?>">
     <style>
         body {
+            /* background-image: url("../../public/assets/images/pageant.jpeg"); */
+
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
             display: flex;
@@ -88,12 +90,27 @@ $redirect_url = "../../public/judge/scoring.php";
             0% { width: 0; }
             100% { width: 100%; }
         }
+
+                #myVideo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -1;
+        }
     </style>
 </head>
 <body>
+
+<video autoplay muted loop id="myVideo">
+  <source src="../../public/assets/videos/MRMSSTI.mp4" type="video/mp4">
+</video>
+
     <div class="container">
         <h1>Please Wait</h1>
-        <p>We're processing your request. You will be redirected automatically.</p>
+        <p>The event will start soon. You will be redirected automatically.</p>
         
         <div class="loader"></div>
         

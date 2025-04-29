@@ -15,16 +15,19 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Events
 CREATE TABLE events (
     event_id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
     description TEXT,
     date DATE NOT NULL,
+    time TIME, 
+    status ENUM('Ongoing', 'Completed', 'Upcoming') DEFAULT 'Upcoming', 
+    background_image VARCHAR(255), 
     created_by INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (created_by) REFERENCES users(id) -- Fixed incorrect reference from users(user_id) to users(id)
+    FOREIGN KEY (created_by) REFERENCES users(id)
 );
+
 
 -- Rounds
 CREATE TABLE event_rounds (
