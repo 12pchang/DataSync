@@ -307,3 +307,5 @@
     </div>
   </div>
 </div>
+
+<script src="../../public/assets/js/modals/contestants.js"></script>

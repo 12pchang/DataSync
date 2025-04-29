@@ -11,6 +11,32 @@
 
 </head>
 <body>
+  <!-- Event Details Modal -->
+<div class="modal fade" id="eventDetailsModal" tabindex="-1" aria-labelledby="eventDetailsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content rounded-4">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="eventDetailsModalLabel">Event Title</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-5">
+            <div class="w-100 rounded-3 bg-cover" id="eventModalBanner" style="height: 200px; background-size: cover; background-position: center;"></div>
+          </div>
+          <div class="col-md-7">
+            <p><strong>Status:</strong> <span id="eventModalStatus"></span></p>
+            <p><strong>Time:</strong> <span id="eventModalTime"></span></p>
+            <p><strong>Details:</strong></p>
+            <p id="eventModalMeta" class="mb-0"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
   <div class="app-container">
 
   <?php include '../../includes/sidebar.php'; ?>
@@ -74,8 +100,17 @@
 <div class="row events-grid">
   <!-- Sample Event Card -->
   <div class="col-md-4 mb-4">
-  <div class="event-card modern-style">
-    <div class="event-img-banner" style="background-image: url('../../public/assets/images/sti.jpg');">
+  <div class="event-card modern-style" 
+     data-bs-toggle="modal" 
+     data-bs-target="#eventDetailsModal"
+     data-title="Mr and Ms Sti"
+     data-status="Ongoing"
+     data-time="<?php echo date('g:i A'); ?>"
+     data-meta="8 Contestants, 3 Judges<br>Event started"
+     data-bg="../../public/assets/images/sti.jpg"
+     style="cursor: pointer;">
+
+    <div class="event-img-banner" style="background-image: url('../../public/uploads/sti.jpg');">
       <div class="event-date">
         
         <span class="day"><?php echo date("j"); ?></span>
@@ -99,7 +134,7 @@
 
 <div class="col-md-4 mb-4">
   <div class="event-card modern-style">
-    <div class="event-img-banner" style="background-image: url('../../public/assets/images/bob.jpg');">
+    <div class="event-img-banner" style="background-image: url('../../public/uploads/bob.jpg');">
       <div class="event-date">
         <span class="day">10</span>
         <span class="month">MAR</span>
@@ -123,7 +158,7 @@
 
 <div class="col-md-4 mb-4">
   <div class="event-card modern-style">
-    <div class="event-img-banner" style="background-image: url('../../public/assets/images/hs.jpg');">
+    <div class="event-img-banner" style="background-image: url('../../public/uploads/hs.jpg');">
       <div class="event-date">
         <span class="day">10</span>
         <span class="month">MAR</span>
@@ -167,6 +202,25 @@
       dateLabel.textContent = "Select Date";
     }
   });
+
+  const eventCards = document.querySelectorAll('.event-card');
+
+  eventCards.forEach(card => {
+    card.addEventListener('click', () => {
+      const title = card.getAttribute('data-title');
+      const status = card.getAttribute('data-status');
+      const time = card.getAttribute('data-time');
+      const meta = card.getAttribute('data-meta');
+      const bg = card.getAttribute('data-bg');
+
+      document.getElementById('eventDetailsModalLabel').textContent = title;
+      document.getElementById('eventModalStatus').textContent = status;
+      document.getElementById('eventModalTime').textContent = time;
+      document.getElementById('eventModalMeta').innerHTML = meta;
+      document.getElementById('eventModalBanner').style.backgroundImage = `url('${bg}')`;
+    });
+  });
+  
 </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

@@ -16,7 +16,7 @@
     </div>
     
     <!-- Button at the end -->
-    <button class="btn btn-primary ms-2" id="addCriteriaBtn">
+    <button type="button" class="btn btn-primary ms-2" id="addCriteriaBtn">
       <i class="bi bi-plus"></i> Add Criteria
     </button>
   </div>
@@ -33,38 +33,7 @@
         <th>Actions</th>
       </tr>
     </thead>
-    <tbody id="criteriaTableBody">
-      <tr>
-        <td>Technique</td>
-        <td>Technical execution and skill level</td>
-        <td><input type="number" class="form-control weight-input" value="35" min="0" max="100"></td>
-        <td>
-          <button class="btn btn-delete-criteria">
-            <i class="bi bi-x-circle text-danger"></i>
-          </button>
-        </td>
-      </tr>
-      <tr>
-        <td>Creativity</td>
-        <td>Originality and artistic expression</td>
-        <td><input type="number" class="form-control weight-input" value="25" min="0" max="100"></td>
-        <td>
-          <button class="btn btn-delete-criteria">
-            <i class="bi bi-x-circle text-danger"></i>
-          </button>
-        </td>
-      </tr>
-      <tr>
-        <td>Performance</td>
-        <td>Overall stage presence and delivery</td>
-        <td><input type="number" class="form-control weight-input" value="40" min="0" max="100"></td>
-        <td>
-          <button class="btn btn-delete-criteria">
-            <i class="bi bi-x-circle text-danger"></i>
-          </button>
-        </td>
-      </tr>
-    </tbody>
+  
   </table>
 </div>
 
@@ -110,3 +79,5 @@
     </div>
   </div>
 </div>
+
+<script src="../../public/assets/js/modals/criteria.js"></script>

@@ -17,90 +17,114 @@
       <div class="contestants-list">
   <div class="contestant-item active">
     <div class="contestant-img-container">
-      <img src="admin.jpg" alt="Contestant" class="contestant-img">
+      <img src="../../public/assets/images/pageant/p1.jpg" alt="Contestant" class="contestant-img">
     </div>
     <div class="contestant-info">
-      <div class="contestant-name">Lester Igop</div>
+      <div class="contestant-name">Jessica Ricio</div>
       <div class="contestant-number">Contestant #1</div>
     </div>
   </div>
   <div class="contestant-item">
     <div class="contestant-img-container">
-      <img src="admin.jpg" alt="Contestant" class="contestant-img">
+      <img src="../../public/assets/images/pageant/p2.jpg" alt="Contestant" class="contestant-img">
     </div>
     <div class="contestant-info">
-      <div class="contestant-name">Sophie Santos</div>
+      <div class="contestant-name">Jhaycel Omandac</div>
       <div class="contestant-number">Contestant #2</div>
     </div>
   </div>
   <div class="contestant-item">
     <div class="contestant-img-container">
-      <img src="admin.jpg" alt="Contestant" class="contestant-img">
+      <img src="../../public/assets/images/pageant/p3.jpg" alt="Contestant" class="contestant-img">
     </div>
     <div class="contestant-info">
-      <div class="contestant-name">Ella Loresca</div>
+      <div class="contestant-name">Kelly Castro</div>
       <div class="contestant-number">Contestant #3</div>
     </div>
   </div>
   <div class="contestant-item">
     <div class="contestant-img-container">
-      <img src="admin.jpg" alt="Contestant" class="contestant-img">
+      <img src="../../public/assets/images/pageant/p4.jpg" alt="Contestant" class="contestant-img">
     </div>
     <div class="contestant-info">
-      <div class="contestant-name">Ronalyn Molera</div>
+      <div class="contestant-name">Hardie Arciaga</div>
       <div class="contestant-number">Contestant #4</div>
     </div>
   </div>
   <div class="contestant-item">
     <div class="contestant-img-container">
-      <img src="admin.jpg" alt="Contestant" class="contestant-img">
+      <img src="../../public/assets/images/pageant/p5.jpg" alt="Contestant" class="contestant-img">
     </div>
     <div class="contestant-info">
-      <div class="contestant-name">Ricson igop</div>
+      <div class="contestant-name">Lance Balague</div>
       <div class="contestant-number">Contestant #5</div>
     </div>
   </div>
+  <div class="contestant-item">
+    <div class="contestant-img-container">
+      <img src="../../public/assets/images/pageant/p6.jpg" alt="Contestant" class="contestant-img">
+    </div>
+    <div class="contestant-info">
+      <div class="contestant-name">Sepero Danielle Sakazawa</div>
+      <div class="contestant-number">Contestant #6</div>
+    </div>
+
+  </div>
 </div>
+
+
     </div>
 
     <div class="main-content">
       <div class="scoring-header">
         <div class="event-info">
-          <h1 class="event-title">Solo Pop 2025</h1>
+          <h1 class="event-title">Mr and Ms STI 2025</h1>
           <p class="event-subtitle">Scoring Phase - Preliminary Round</p>
         </div>
         <div class="judge-info">
   <div class="judge-details">
-    <div class="judge-name">Judge: John Lester Inso</div>
+    <div class="judge-name">Judge: Ella Loresca</div>
     <div class="judge-id">ID: JDG-2025-001</div>
   </div>
-  <img src="admin.jpg" alt="Judge" class="judge-img" id="judgeProfileImg">
+  <img src="../../public/assets/images/ella.png" alt="Judge" class="judge-img" id="judgeProfileImg">
 </div>
       </div>
 
       <div class="scoring-content">
         <div class="row">
-          <div class="col-md-3">
-            <div class="timer-container">
-              <div class="timer-icon">
-                <i class="bi bi-stopwatch"></i>
-              </div>
-              <div class="timer-info">
-                <div class="timer-label">Time Remaining</div>
-                <div class="timer-value" id="timer">02:45</div>
-              </div>
-            </div>
-            <div class="last-saved mt-3">
-              <span class="badge bg-light text-dark">
-                <i class="bi bi-check-circle-fill text-success me-1"></i>
-                Last saved 2 minutes ago
-              </span>
-            </div>
-          </div>
+        <div class="col-md-3">
+  <!-- Image Container -->
+  <img id="currentContestantImg"
+     src="../../public/assets/images/pageant/p1.jpg"
+     alt="Current Contestant"
+     onerror="this.src='../../public/assets/images/placeholder.png'"
+     style="width: 260px; height: 300px; object-fit: cover; border-radius: 6px;">
+
+
+
+  <!-- Timer Box -->
+  <div class="timer-container">
+    <div class="timer-icon">
+      <i class="bi bi-stopwatch"></i>
+    </div>
+    <div class="timer-info">
+      <div class="timer-label">Time Remaining</div>
+      <div class="timer-value" id="timer">02:45</div>
+    </div>
+  </div>
+
+  <div class="last-saved mt-3">
+    <span class="badge bg-light text-dark">
+      <i class="bi bi-check-circle-fill text-success me-1"></i>
+      Last saved 2 minutes ago
+    </span>
+  </div>
+</div>
+
 
           <div class="col-md-9">
             <div class="contestant-header">
-              <h2 class="contestant-name">Sarah Johnson</h2>
+              <h2 class="contestant-name">jessica Ricio</h2>
               <div class="contestant-number">Contestant #1</div>
             </div>
 
