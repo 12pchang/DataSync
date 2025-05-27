@@ -10,12 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   }
 
-  const contestantsData = [
-    { id: "DC-001", name: "Lester Inso", category: "Solo-Senior", status: "Active", initial: "L", color: "blue" },
-    { id: "DC-002", name: "Ronalyn Malaya", category: "Duet-Junior", status: "Active", initial: "R", color: "red" },
-    { id: "DC-003", name: "Sophia Santos", category: "Group-Teen", status: "Active", initial: "S", color: "teal" },
-    { id: "DC-004", name: "Ella Loresca", category: "Hataw sayaw", status: "Active", initial: "S", color: "teal" },
-  ]
 
   let currentPage = 1
   const itemsPerPage = 3

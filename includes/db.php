@@ -4,7 +4,7 @@
         private $HostName = "localhost"; 
         private $UserName = "root"; 
         private $PassWord = ""; 
-        private $DatabaseName ="datasync"; 
+        private $DatabaseName ="Datasync"; 
 
         protected $conn;  
         private static $instance = null;

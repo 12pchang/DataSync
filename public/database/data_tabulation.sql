@@ -18,11 +18,14 @@ CREATE TABLE users (
 CREATE TABLE events (
     event_id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
-    description TEXT,
-    date DATE NOT NULL,
-    time TIME, 
-    status ENUM('Ongoing', 'Completed', 'Upcoming') DEFAULT 'Upcoming', 
-    background_image VARCHAR(255), 
+    event_type VARCHAR(50) NOT NULL,
+    description TEXT NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    `time` TIME NOT NULL DEFAULT '00:00:00',
+    venue VARCHAR(255) NOT NULL,
+    banner VARCHAR(255),
+    status ENUM('Ongoing', 'Completed', 'Upcoming') DEFAULT 'Upcoming',
     created_by INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (created_by) REFERENCES users(id)
@@ -86,12 +89,12 @@ CREATE TABLE scores (
 echo password_hash("admin123", PASSWORD_DEFAULT);
 
 -- Admin user
-INSERT INTO users (full_name, alias, email, password, is_verified, role)
+INSERT INTO users (full_name, email, password, is_verified, role)
 VALUES (
-    'Alice Cutie', 
-    'alice_admin', 
+    'Sophie Santos', 
+    'admin@datasync.com', 
     'admin@example.com', 
-    '$2y$10$XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX', 
+    '$2y$10$MJ5IDL7GlSwZJok5YZJ7w.UHkcXEQLPOc6riNDeIajPkA2dZ043uC', 
     1,
     'admin' -- or  judge 
 );

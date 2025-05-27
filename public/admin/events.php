@@ -1,40 +1,68 @@
+<?php
+require_once '../../includes/db.php';
+
+$database = new Database();
+$conn = $database->getConnection();
+
+$sql = "SELECT  e.event_id,
+                e.title,
+                e.status,
+                e.start_date,
+                e.time,
+                e.banner,
+                (SELECT COUNT(*) FROM contestants WHERE event_id = e.event_id) AS contestants,
+                (SELECT COUNT(*) FROM judges      WHERE event_id = e.event_id) AS judges
+        FROM    events e
+        ORDER BY e.start_date DESC";
+
+
+
+$result = $conn->query($sql);
+
+if (!$result) {
+    die("Query failed: " . $conn->error);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DataSync</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../public/assets/libs/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <link rel="stylesheet" href="../../public/assets/css/events.css">
   <link rel="icon" href="../../public/assets/images/logo1.svg">
+  
 
 </head>
 <body>
   <!-- Event Details Modal -->
+<!-- Event Details Modal -->
 <div class="modal fade" id="eventDetailsModal" tabindex="-1" aria-labelledby="eventDetailsModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content rounded-4">
+    <div class="modal-content rounded-4 shadow">
       <div class="modal-header bg-primary text-white">
-        <h5 class="modal-title" id="eventDetailsModalLabel">Event Title</h5>
+        <h5 class="modal-title" id="eventDetailsModalLabel">Event Details</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body p-4">
         <div class="row">
-          <div class="col-md-5">
-            <div class="w-100 rounded-3 bg-cover" id="eventModalBanner" style="height: 200px; background-size: cover; background-position: center;"></div>
+          <div class="col-md-5 mb-3 mb-md-0">
+            <div id="eventModalBanner" class="rounded-3 w-100 h-100" style="height: 200px; background-size: cover; background-position: center;"></div>
           </div>
           <div class="col-md-7">
-            <p><strong>Status:</strong> <span id="eventModalStatus"></span></p>
-            <p><strong>Time:</strong> <span id="eventModalTime"></span></p>
-            <p><strong>Details:</strong></p>
-            <p id="eventModalMeta" class="mb-0"></p>
+            <h4 id="eventModalTitle" class="mb-2 fw-bold"></h4>
+            <p class="mb-1"><strong>Status:</strong> <span id="eventModalStatus"></span></p>
+            <p class="mb-1"><strong>Time:</strong> <span id="eventModalTime"></span></p>
+            <p class="mb-0"><strong>Participants:</strong> <span id="eventModalMeta"></span></p>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
 
 
   <div class="app-container">
@@ -69,13 +97,11 @@
           </div>
 
           <div class="custom-date-btn position-relative d-inline-block">
-            <!-- Label styled as button -->
             <label for="eventDateFilter" class="btn btn-outline-secondary filter-btn w-100 d-flex align-items-center gap-2" id="dateLabel">
-              <i class="bi bi-calendar3"></i> <!-- Bootstrap calendar icon -->
+              <i class="bi bi-calendar3"></i> 
               <span>Select Date</span>
             </label>
 
-            <!-- Invisible date input that opens calendar picker -->
             <input type="date" id="eventDateFilter" class="position-absolute w-100 h-100" style="opacity: 0; top: 0; left: 0; cursor: pointer;">
           </div>
      
@@ -97,99 +123,55 @@
 </div>
 </div>
 
-<div class="row events-grid">
-  <!-- Sample Event Card -->
-  <div class="col-md-4 mb-4">
-  <div class="event-card modern-style" 
-     data-bs-toggle="modal" 
+
+
+
+
+
+
+<div class="row">
+  <?php while ($ev = $result->fetch_assoc()): ?>
+    <?php
+      $day   = date('j',  strtotime($ev['start_date']));
+      $month = date('M',  strtotime($ev['start_date']));      
+      $time  = date('g:i A', strtotime($ev['time']));
+      $bg = '../../public/uploads/events/' . basename($ev['banner']);
+      $title = htmlspecialchars($ev['title']);
+      $status= htmlspecialchars($ev['status']);
+      $meta  = "{$ev['contestants']} Contestants, {$ev['judges']} Judges";
+    ?>
+    <div class="col-md-4 mb-4">
+    <div class="event-card modern-style"
+     data-bs-toggle="modal"
      data-bs-target="#eventDetailsModal"
-     data-title="Mr and Ms Sti"
-     data-status="Ongoing"
-     data-time="<?php echo date('g:i A'); ?>"
-     data-meta="8 Contestants, 3 Judges<br>Event started"
-     data-bg="../../public/assets/images/sti.jpg"
-     style="cursor: pointer;">
+     data-event-id="<?= $ev['event_id'] ?>">
 
-    <div class="event-img-banner" style="background-image: url('../../public/uploads/sti.jpg');">
-      <div class="event-date">
-        
-        <span class="day"><?php echo date("j"); ?></span>
-        <span class="month"><?php echo date("F"); ?></span>
+<div class="event-img-banner" style="background-image:url('<?= htmlspecialchars($bg) ?>')">
+          <div class="event-date">
+            <span class="day"><?= $day ?></span>
+            <span class="month"><?= $month ?></span>
+          </div>
+        </div>
+
+        <div class="event-info">
+          <div class="d-flex justify-content-between">
+            <h4 class="event-title mb-1"><?= $title ?></h4>
+            <span class="event-status <?= strtolower($status) ?>"><?= $status ?></span>
+          </div>
+          <p class="event-time"><?= $time ?></p>
+          <div class="event-meta"><?= $meta ?></div>
+        </div>
       </div>
     </div>
-    <div class="event-info">
-      <div class="d-flex justify-content-between align-items-start">
-        <h4 class="event-title mb-1">Mr and Ms Sti</h4>
-        <span class="event-status ongoing">Ongoing</span>
-      </div>
-      <p class="event-time"><?php echo date("g:i A"); ?></p>
-      <div class="event-meta">
-        <span><i class="bi bi-people"></i> 8 Contestants, 3 Judges</span><br>
-        <span><i class="bi bi-clock"></i> Event started</span>
-      </div>
-    </div>
-  </div>
+  <?php endwhile; ?>
 </div>
 
 
-<div class="col-md-4 mb-4">
-  <div class="event-card modern-style">
-    <div class="event-img-banner" style="background-image: url('../../public/uploads/bob.jpg');">
-      <div class="event-date">
-        <span class="day">10</span>
-        <span class="month">MAR</span>
-      </div>
-    </div>
-    <div class="event-info">
-      <div class="d-flex justify-content-between align-items-start">
-        <h4 class="event-title mb-1">Battle of the Bands</h4>
-        <span class="event-status completed">Completed</span>
-      </div>
-      <p class="event-time">4:00 PM</p>
-      <div class="event-meta">
-        <span><i class="bi bi-people"></i> 8 Contestants, 3 Judges</span><br>
-        <span><i class="bi bi-trophy"></i> Winner: Nocturnals</span>
       </div>
     </div>
   </div>
-</div>
-
-
-
-<div class="col-md-4 mb-4">
-  <div class="event-card modern-style">
-    <div class="event-img-banner" style="background-image: url('../../public/uploads/hs.jpg');">
-      <div class="event-date">
-        <span class="day">10</span>
-        <span class="month">MAR</span>
-      </div>
-    </div>
-    <div class="event-info">
-      <div class="d-flex justify-content-between align-items-start">
-        <h4 class="event-title mb-1">Hataw Sayaw</h4>
-        <span class="event-status completed">Completed</span>
-      </div>
-      <p class="event-time">8:00 AM</p>
-      <div class="event-meta">
-        <span><i class="bi bi-people"></i> 5 Contestants, 3 Judges</span><br>
-        <span><i class="bi bi-trophy"></i> Winner: SILK 'N SNAP</span>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-</div>
-
-
-        <!-- <div class="footer text-center text-muted small py-3">
-          © 2025 Event Tabulation System. All rights reserved.
-        </div> -->
-      </div>
-    </div>
-  </div>
-  
-  <script>
+ <script>
+document.addEventListener("DOMContentLoaded", () => {
   const dateInput = document.getElementById("eventDateFilter");
   const dateLabel = document.getElementById("dateLabel").querySelector("span");
 
@@ -204,7 +186,6 @@
   });
 
   const eventCards = document.querySelectorAll('.event-card');
-
   eventCards.forEach(card => {
     card.addEventListener('click', () => {
       const title = card.getAttribute('data-title');
@@ -213,17 +194,18 @@
       const meta = card.getAttribute('data-meta');
       const bg = card.getAttribute('data-bg');
 
-      document.getElementById('eventDetailsModalLabel').textContent = title;
+      document.getElementById('eventModalTitle').textContent = title;
       document.getElementById('eventModalStatus').textContent = status;
       document.getElementById('eventModalTime').textContent = time;
-      document.getElementById('eventModalMeta').innerHTML = meta;
+      document.getElementById('eventModalMeta').textContent = meta;
       document.getElementById('eventModalBanner').style.backgroundImage = `url('${bg}')`;
     });
   });
-  
+});
 </script>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="../../public/assets/js/events.js"></script>
+<script src="../../public/assets/js/events.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

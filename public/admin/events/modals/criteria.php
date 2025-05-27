@@ -1,3 +1,9 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h5 class="mb-0">Event Criteria</h5>
+
+</div>
+
+
 <div class="mb-4">
   <label for="roundSelect" class="form-label">Select Round</label>
   
@@ -9,12 +15,21 @@
         Preliminary Round
       </button>
       <ul class="dropdown-menu w-auto" aria-labelledby="roundDropdown">
-        <li><a class="dropdown-item active" href="#" data-round="preliminary">Preliminary Round</a></li>
-        <li><a class="dropdown-item" href="#" data-round="semifinal">Semi-Final Round</a></li>
-        <li><a class="dropdown-item" href="#" data-round="final">Final Round</a></li>
-      </ul>
+      <?php foreach ($rounds as $index => $round): ?>
+        <li>
+          <a class="dropdown-item <?= $index === 0 ? 'active' : '' ?>" 
+            href="#" 
+            data-round-id="<?= htmlspecialchars($round['round_id']) ?>">
+            <?= htmlspecialchars($round['round_name']) ?>
+          </a>
+        </li>
+      <?php endforeach; ?>
+    </ul>
+
+
     </div>
-    
+
+
     <!-- Button at the end -->
     <button type="button" class="btn btn-primary ms-2" id="addCriteriaBtn">
       <i class="bi bi-plus"></i> Add Criteria
@@ -33,7 +48,9 @@
         <th>Actions</th>
       </tr>
     </thead>
-  
+    <tbody id="criteriaTableBody">
+      <!-- Criteria rows will be dynamically inserted here -->
+    </tbody>
   </table>
 </div>
 
@@ -58,6 +75,7 @@
       
       <div class="modal-body">
         <div class="mb-3">
+        <input type="hidden" id="selectedRoundId" name="round_id" value="">
           <label for="criteriaName" class="form-label">Criteria Name</label>
           <input type="text" class="form-control" id="criteriaName" placeholder="Enter criteria name">
         </div>
@@ -79,5 +97,26 @@
     </div>
   </div>
 </div>
+
+<script >
+  document.querySelectorAll('.dropdown-item').forEach(item => {
+  item.addEventListener('click', function(e) {
+    e.preventDefault();
+    
+    // Update button label
+    const dropdownButton = document.getElementById('roundDropdown');
+    dropdownButton.textContent = this.textContent;
+
+    // Mark active item
+    document.querySelectorAll('.dropdown-item').forEach(el => el.classList.remove('active'));
+    this.classList.add('active');
+
+    // Update hidden round_id input
+    const selectedRoundId = this.getAttribute('data-round-id'); 
+    document.getElementById('selectedRoundId').value = selectedRoundId;
+  });
+});
+
+</script>
 
 <script src="../../public/assets/js/modals/criteria.js"></script>

@@ -118,6 +118,8 @@ document.addEventListener("DOMContentLoaded", () => {
       return
     }
 
+    
+
     const tableBody = document.getElementById("criteriaTableBody")
     const row = document.createElement("tr")
     row.innerHTML = `

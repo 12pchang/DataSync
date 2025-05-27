@@ -1,3 +1,32 @@
+<?php
+require_once '../../includes/db.php';
+$database = new Database();
+$conn = $database->getConnection();
+$stats = [
+    'Ongoing' => 0,
+    'Upcoming' => 0,
+    'Completed' => 0
+];
+$ongoingEvents = [];
+$upcomingEvents = [];
+
+// Get stats count
+$statQuery = "SELECT status, COUNT(*) as total FROM events GROUP BY status";
+$statResult = $conn->query($statQuery);
+while ($row = $statResult->fetch_assoc()) {
+    $stats[$row['status']] = $row['total'];
+}
+
+// Get ongoing events
+$ongoingQuery = "SELECT * FROM events WHERE status = 'Ongoing' ORDER BY start_date ASC";
+$ongoingEvents = $conn->query($ongoingQuery);
+
+// Get upcoming events
+$upcomingQuery = "SELECT * FROM events WHERE status = 'Upcoming' ORDER BY start_date ASC";
+$upcomingEvents = $conn->query($upcomingQuery);
+?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -5,8 +34,8 @@
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
 <title>DataSync Dashboard</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<link rel="stylesheet" href="../../public/assets/libs/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   
    <link rel="stylesheet" href="../../public/assets/css/dashboard.css">
    <link rel="icon" href="../../public/assets/images/logo1.svg">
@@ -95,143 +124,72 @@
    
     </div>
     <div class="row g-4 mb-4">
-      <div class="col-md-4">
-        <div class="stat-card">
-          <h2 class="stat-number">23</h2>
-          <div class="stat-label">Ongoing Events</div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="stat-card">
-          <h2 class="stat-number">19</h2>
-          <div class="stat-label">Upcoming Events</div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="stat-card">
-          <h2 class="stat-number">10</h2>
-          <div class="stat-label">Completed Events</div>
-        </div>
-      </div>
+  <div class="col-md-4">
+    <div class="stat-card">
+      <h2 class="stat-number"><?= $stats['Ongoing'] ?? 0 ?></h2>
+      <div class="stat-label">Ongoing Events</div>
     </div>
+  </div>
+  <div class="col-md-4">
+    <div class="stat-card">
+      <h2 class="stat-number"><?= $stats['Upcoming'] ?? 0 ?></h2>
+      <div class="stat-label">Upcoming Events</div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="stat-card">
+      <h2 class="stat-number"><?= $stats['Completed'] ?? 0 ?></h2>
+      <div class="stat-label">Completed Events</div>
+    </div>
+  </div>
+</div>
+
     <div class="row g-4">
       <div class="col-lg-8">
         <div class="card mt-2 mb-4">
           <div class="card-body">
-            <h3 class="section-title">Ongoing events</h3>
-            <div class="row g-3">
-              <div class="col-md-6">
-                <div class="event-card">
-                  <h5>Tagisan ng Talino</h5>
-                  <div class="event-detail">
-                    <i class="bi bi-calendar"></i>
-                    <span>May 28, 2025</span>
-                  </div>
-                  <div class="event-detail">
-                    <i class="bi bi-clock"></i>
-                    <span>13:00 - 19:30</span>
-                  </div>
-                  <div class="event-detail">
-                    <i class="bi bi-geo-alt"></i>
-                    <span>Ayala Mall</span>
-                  </div>
-                  <div class="event-detail">
-                    <i class="bi bi-people"></i>
-                    <span>8 judges</span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="event-card">
-                  <h5>Talent Search</h5>
-                  <div class="event-detail">
-                    <i class="bi bi-calendar"></i>
-                    <span>May 30, 2025</span>
-                  </div>
-                  <div class="event-detail">
-                    <i class="bi bi-clock"></i>
-                    <span>10:00 - 12:30</span>
-                  </div>
-                  <div class="event-detail">
-                    <i class="bi bi-geo-alt"></i>
-                    <span>STICA Basketball court</span>
-                  </div>
-                  <div class="event-detail">
-                    <i class="bi bi-people"></i>
-                    <span>12 teams</span>
-                  </div>
-                </div>
-              </div>
+          <h3 class="section-title">Ongoing events</h3>
+          <div class="row g-3 p-5">
+          <?php if ($ongoingEvents->num_rows > 0): ?>
+        <?php while ($event = $ongoingEvents->fetch_assoc()): ?>
+          <div class="col-md-6">
+            <div class="event-card">
+              <h5><?= htmlspecialchars($event['title']) ?></h5>
+              <div class="event-detail"><i class="bi bi-calendar"></i> <span><?= date('F j, Y', strtotime($event['start_date'])) ?></span></div>
+              <div class="event-detail"><i class="bi bi-clock"></i> <span><?= date('H:i', strtotime($event['time'])) ?></span></div>
+              <div class="event-detail"><i class="bi bi-geo-alt"></i> <span><?= htmlspecialchars($event['description']) ?></span></div>
             </div>
+          </div>
+        <?php endwhile; ?>
+      <?php else: ?>
+        <div class="col-12 text-center text-muted">There are no ongoing events.</div>
+      <?php endif; ?>
+
+
+          </div>
+
           </div>
         </div>
         <div class="card">
           <div class="card-body">
             <h3 class="section-title">Upcoming events</h3>
-            <div class="row g-3">
-              <div class="col-md-4">
-                <div class="event-card">
-                  <h5>Codefest</h5>
-                  <div class="event-detail">
-                    <i class="bi bi-calendar"></i>
-                    <span>April 2, 2025</span>
-                  </div>
-                  <div class="event-detail">
-                    <i class="bi bi-clock"></i>
-                    <span>8:00 - 12:00</span>
-                  </div>
-                  <div class="event-detail">
-                    <i class="bi bi-geo-alt"></i>
-                    <span>Computer Lab 2</span>
-                  </div>
-                  <div class="event-detail">
-                    <i class="bi bi-people"></i>
-                    <span>8 representative</span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="event-card">
-                  <h5>Team Building</h5>
-                  <div class="event-detail">
-                    <i class="bi bi-calendar"></i>
-                    <span>March 5, 2023</span>
-                  </div>
-                  <div class="event-detail">
-                    <i class="bi bi-clock"></i>
-                    <span>All Day</span>
-                  </div>
-                  <div class="event-detail">
-                    <i class="bi bi-geo-alt"></i>
-                    <span>STI College</span>
-                  </div>
-                  <div class="event-detail">
-                    <i class="bi bi-people"></i>
-                    <span>All students</span>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="event-card">
-                  <h5>Sportsfest</h5>
-                  <div class="event-detail">
-                    <i class="bi bi-calendar"></i>
-                    <span>June 10, 2025</span>
-                  </div>
-                  <div class="event-detail">
-                    <i class="bi bi-clock"></i>
-                    <span>09:00 - 5:30</span>
-                  </div>
-                  <div class="event-detail">
-                    <i class="bi bi-geo-alt"></i>
-                    <span>Ilaya court</span>
-                  </div>
-                  <div class="event-detail">
-                    <i class="bi bi-people"></i>
-                    <span>All students</span>
-                  </div>
-                </div>
-              </div>
+            <div class="row g-3 ">
+              <?php if ($upcomingEvents->num_rows > 0): ?>
+  <?php while ($event = $upcomingEvents->fetch_assoc()): ?>
+    <div class="col-md-4">
+      <div class="event-card">
+        <h5><?= htmlspecialchars($event['title']) ?></h5>
+        <div class="event-detail"><i class="bi bi-calendar"></i> <span><?= date('F j, Y', strtotime($event['start_date'])) ?></span></div>
+        <div class="event-detail"><i class="bi bi-clock"></i> <span><?= date('H:i', strtotime($event['time'])) ?></span></div>
+        <div class="event-detail"><i class="bi bi-geo-alt"></i> <span><?= htmlspecialchars($event['description']) ?></span></div>
+        
+      </div>
+    </div>
+  <?php endwhile; ?>
+<?php else: ?>
+  <div class="col-12 text-center text-muted">There are no upcoming events.</div>
+<?php endif; ?>
+
             </div>
           </div>
         </div>
@@ -285,45 +243,9 @@
     </div>
   </div>
 
-
-<script>
-// JavaScript for tab functionality
-document.addEventListener('DOMContentLoaded', function() {
-  const tabs = document.querySelectorAll('.activity-tab');
-  
-  tabs.forEach(tab => {
-    tab.addEventListener('click', function() {
-      // Remove active class from all tabs
-      tabs.forEach(t => t.classList.remove('active'));
-      
-      // Add active class to clicked tab
-      this.classList.add('active');
-      
-      // Here you would typically filter the activity items
-      // based on the selected tab category
-    });
-  });
-});
-</script>
-  <!-- script for numbering para pag 1k to 1m-->
-  <script>
-document.addEventListener("DOMContentLoaded", function () {
-    function formatNumber(num) {
-        if (num >= 1000000) return (num / 1000000).toFixed(1) + "M";
-        if (num >= 1000) return (num / 1000).toFixed(1) + "K";
-        return num;
-    }
-
-    document.querySelectorAll(".stat-number").forEach(el => {
-        el.textContent = formatNumber(parseInt(el.textContent));
-    });
-});
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 
-
-</script>
-
-<script src="../assets/js/dashboard.js"></script>
 
 </body>
 </html>

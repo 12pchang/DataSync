@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 header("Location: ../public/judge/wait.php");
             } else {
                 // Pending or unknown role
-                header("Location: ../public/login.php?error=role");
+                header("Location: ../public/index.php");
             }
             exit;
         }

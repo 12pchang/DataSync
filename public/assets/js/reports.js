@@ -1,4 +1,4 @@
-const allParticipants = [
+  const allParticipants = [
     {
       rank: 1,
       name: "Ronalyn Molera",

@@ -112,8 +112,11 @@
 
     }
     
-    .fc-col-header-cell-cushion {
-      padding: 0 !important;
+    .fc-col-header-cell a {
+      pointer-events: none;
+      text-decoration: none;
+      color: inherit;
+      cursor: default;
     }
     
     .fc .fc-daygrid-day-top {

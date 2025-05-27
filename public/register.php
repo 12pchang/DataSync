@@ -1,140 +1,141 @@
-<?php
-// Database connection
-$servername = "localhost"; // Change to your database server
-$username = "root"; // Your MySQL username
-$password = ""; // Your MySQL password
-$dbname = "datasync";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Handle form submission
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Get form data
-    $first_name = mysqli_real_escape_string($conn, $_POST['first_name']);
-    $middle_name = mysqli_real_escape_string($conn, $_POST['middle_name']);
-    $last_name = mysqli_real_escape_string($conn, $_POST['last_name']);
-    $alias = mysqli_real_escape_string($conn, $_POST['alias']);
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $password = mysqli_real_escape_string($conn, $_POST['password']);
-    
-    // Check if the email already exists
-    $check_email_sql = "SELECT * FROM users WHERE email = '$email'";
-    $result = $conn->query($check_email_sql);
-
-    if ($result->num_rows > 0) {
-        // Email already exists, display error message
-        echo "Error: Email is already registered.";
-    } else {
-        // Hash password
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-        // Prepare SQL query to insert data
-        $sql = "INSERT INTO users (full_name, alias, email, password, is_verified, role) 
-                VALUES ('$first_name $middle_name $last_name', '$alias', '$email', '$hashed_password', 0, 'pending')";
-        
-        if ($conn->query($sql) === TRUE) {
-            // If the data is inserted successfully, you can redirect or give a success message
-            echo "New record created successfully";
-        } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
-        }
-    }
-}
-
-$conn->close();
-?>
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- SweetAlert2 CSS -->
-<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.5.2/dist/sweetalert2.min.css" rel="stylesheet">
-
-<!-- SweetAlert2 JS -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.5.2/dist/sweetalert2.min.js"></script>
-
-</head>
-<body>
-  
 <!-- Register Modal -->
 <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content shadow-lg rounded">
 
       <div class="modal-body p-4">
+      <form id="registerForm" method="POST">
 
-        <!-- Logo -->
-        <div class="text-center mb-4">
-          <div class="card mx-auto rounded-4 shadow-sm" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
-            <img src="../public/assets/images/logo1.svg" alt="Logo" style="width: 50px; height: 50px;">
-          </div>
-        </div>
-        
-        <h5 class="modal-title text-center mb-4" id="registerModalLabel">Sign Up</h5>
-
-        <form id="registerForm" method="POST">
-
-          <!-- Full Name -->
-          <div class="row mb-3">
-            <div class="col-5">
-              <label class="form-label">First Name</label>
-              <input type="text" class="form-control form-control-lg" name="first_name" required>
-            </div>
-            <div class="col-2">
-              <label class="form-label">M.I.</label>
-              <input type="text" class="form-control form-control-lg" name="middle_name">
-            </div>
-            <div class="col-5">
-              <label class="form-label">Last Name</label>
-              <input type="text" class="form-control form-control-lg" name="last_name" required>
-            </div>
+          <div class="login-container">
+          <div class="text-center mb-4">
+          <img src="../public/assets/images/logo1.svg" alt="Logo" class="logo" style="width: 80px; ">
+            <h2 class="mt-3">Create an Account</h2>
+            <p class="text-muted">Register to access the tabulation system</p>
           </div>
 
-          <!-- Alias -->
-          <div class="mb-3">
-            <label class="form-label">Alias / Nickname</label>
-            <input type="text" class="form-control form-control-lg" name="alias" required>
-          </div>
-
-          <!-- Email -->
-          <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input type="email" class="form-control form-control-lg" name="email" required>
-          </div>
-
-          <!-- Password -->
-          <div class="mb-3">
-            <label class="form-label">Password</label>
-            <input type="password" class="form-control form-control-lg" name="password" required>
-          </div>
-
-          <!-- Register Button -->
-          <button type="submit" class="btn btn-success w-100 btn-lg mb-3">Sign Up</button>
-
-          <!-- Terms and Privacy -->
-          <p class="text-center small mb-1">
-          By signing up to create an account, I accept the
-          <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#termsModal">Terms of Use</a> and
-          <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy Policy</a>.
-         </p>
 
 
-          <!-- Already have an account -->
-          <p class="text-center small">
+          <div class="tab-content" id="registerTabContent">
+            <div class="tab-pane fade show active" id="admin-register" role="tabpanel" aria-labelledby="admin-tab">
+              <form id="adminRegisterForm">
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="adminFirstName" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="adminFirstName" placeholder="Enter first name" required>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="adminLastName" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="adminLastName" placeholder="Enter last name" required>
+                  </div>
+                </div>
+                
+                <div class="mb-3">
+                  <label for="adminEmail" class="form-label">Email</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                    <input type="email" class="form-control" id="adminEmail" placeholder="Enter your email" required>
+                  </div>
+                </div>
+                
+                <div class="mb-3">
+                  <label for="adminPhone" class="form-label">Phone Number</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-phone"></i></span>
+                    <input type="tel" class="form-control" id="adminPhone" placeholder="Enter phone number">
+                  </div>
+                </div>
+                
+                <div class="mb-3">
+                  <label for="adminPassword" class="form-label">Password</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                    <input type="password" class="form-control" id="adminPassword" placeholder="Create password" required>
+                  </div>
+                </div>
+                
+                <div class="mb-3">
+                  <label for="adminConfirmPassword" class="form-label">Confirm Password</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                    <input type="password" class="form-control" id="adminConfirmPassword" placeholder="Confirm password" required>
+                  </div>
+                </div>
+                
+                <div class="mb-3 form-check">
+                  <input type="checkbox" class="form-check-input" id="adminTerms" required>
+                  <label class="form-check-label" for="adminTerms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+                
+                  <p class="text-center small">
             Already have an account?
             <a href="#" class="text-primary text-decoration-none" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#loginModal">Sign In</a>
           </p>
+              </form>
+            </div>
 
-        </form>
+            <div class="tab-pane fade" id="judge-register" role="tabpanel" aria-labelledby="judge-tab">
+              <form id="judgeRegisterForm">
+                <div class="row">
+                  <div class="col-md-6 mb-3">
+                    <label for="judgeFirstName" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="judgeFirstName" placeholder="Enter first name" required>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label for="judgeLastName" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="judgeLastName" placeholder="Enter last name" required>
+                  </div>
+                </div>
+                
+                <div class="mb-3">
+                  <label for="judgeEmail" class="form-label">Email</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                    <input type="email" class="form-control" id="judgeEmail" placeholder="Enter your email" required>
+                  </div>
+                </div>
+                
+                <div class="mb-3">
+                  <label for="judgePhone" class="form-label">Phone Number</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-phone"></i></span>
+                    <input type="tel" class="form-control" id="judgePhone" placeholder="Enter phone number">
+                  </div>
+                </div>
+                
+
+                <div class="mb-3">
+                  <label for="judgePassword" class="form-label">Password</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                    <input type="password" class="form-control" id="judgePassword" placeholder="Create password" required>
+                  </div>
+                </div>
+                
+                <div class="mb-3">
+                  <label for="judgeConfirmPassword" class="form-label">Confirm Password</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                    <input type="password" class="form-control" id="judgeConfirmPassword" placeholder="Confirm password" required>
+                  </div>
+                </div>
+                
+                <div class="mb-3 form-check">
+                  <input type="checkbox" class="form-check-input" id="judgeTerms" required>
+                  <label class="form-check-label" for="judgeTerms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Register as Judge</button>
+                
+                <div class="text-center mt-3">
+                  <span>Already have an account? </span>
+                  <a href="login.html" class="login-link">Login</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -215,7 +216,3 @@ $conn->close();
     </div>
   </div>
 </div>
-
-</body>
-</html>
-

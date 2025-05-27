@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reports - DataSync</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../public/assets/libs/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <link rel="stylesheet" href="../../public/assets/css/reports.css">
   <!-- Add jsPDF and xlsx libraries -->
@@ -26,12 +26,12 @@
         <div class="content-header">
           <div>
             <h1 class="page-title">Tabulation Report</h1>
-            <!-- <p class="page-subtitle">View final scores and rankings for: Mr. & Ms. Intramurals 2025</p> -->
+            <p class="page-subtitle">View final scores and rankings for: Mr. & Ms. Intramurals 2025</p>
           </div>
           <div>
-            <!-- <button class="btn btn-primary" id="addReportBtn">
+            <button class="btn btn-primary" id="addReportBtn">
               <i class="bi bi-plus-circle me-2"></i> Generate New Report
-            </button> -->
+            </button>
           </div>
         </div>
         <div class="content-card">
@@ -175,6 +175,7 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  
   <script src="../../public/assets/js/reports.js"></script>
 </body>
 </html>

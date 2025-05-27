@@ -1,182 +1,203 @@
+
+
+<?php
+require_once '../../includes/db.php';
+
+$database = new Database();
+$conn = $database->getConnection();
+
+$sql = "SELECT  e.event_id,
+                e.title,
+                e.status,
+                e.start_date,
+                e.time,
+                e.banner,
+                (SELECT COUNT(*) FROM contestants WHERE event_id = e.event_id) AS contestants,
+                (SELECT COUNT(*) FROM judges      WHERE event_id = e.event_id) AS judges
+        FROM    events e
+        ORDER BY e.start_date DESC";
+
+
+
+$result = $conn->query($sql);
+
+if (!$result) {
+    die("Query failed: " . $conn->error);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Competition Scoring System</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="../../public/assets/css/score.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <title>DataSync</title>
+  <link rel="stylesheet" href="../../public/assets/libs/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="../../public/assets/css/events.css">
   <link rel="icon" href="../../public/assets/images/logo1.svg">
+  
 
 </head>
 <body>
-
-<?php include '../../includes/sidebar.php'; ?>
-<?php include '../../includes/header.php'; ?>
-
-<div class="main-content mt-5 px-4">
-  <div class="row gy-4">
-    <!-- Live Scoring Overview -->
-    <div class="col-lg-8">
-      <div class="card stat-card">
-        <div class="card-body">
-          <h5 class="card-title section-title mb-4">Live Scoring Overview for Mr and Ms STI</h5>
-          <div class="row g-3 mb-4">
-            <div class="col-md-4">
-              <div class="stat-card">
-                <div class="card-body py-3">
-                  <p class="text-muted mb-1">Contestants</p>
-                  <h4 class="stat-number mb-0">10</h4>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="stat-card">
-                <div class="card-body py-3">
-                  <p class="text-muted mb-1">Judges</p>
-                  <h4 class="stat-number mb-0">3</h4>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="stat-card">
-                <div class="card-body py-3">
-                  <p class="text-muted mb-1">Current Round</p>
-                  <h4 class="stat-number mb-0">Semi-Finals</h4>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          
-        </div>
+  <!-- Event Details Modal -->
+<!-- Event Details Modal -->
+<div class="modal fade" id="eventDetailsModal" tabindex="-1" aria-labelledby="eventDetailsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="eventDetailsModalLabel">Event Details</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      
-    </div>
-    
+      <div class="modal-body p-4">
+  <div id="scoreContainer">
+    <h4 class="fw-bold mb-3">Scoring Breakdown</h4>
+    <div id="scoreTableArea">Loading scores...</div>
+    <div class="modal-footer">
+  <a href="../../public/admin/view_score.php" id="viewFullPageBtn" target="_blank" class="btn btn-outline-primary" style="display: none;">
+  <i class="bi bi-box-arrow-up-right"></i> View Full Page
+</a>
 
-    <!-- Place Active Alerts at the top of the right column -->
-<div class="col-lg-4 d-flex flex-column gap-4">
+</div>
 
-<!-- Active Alerts -->
-<div class="card event-card">
-  <div class="card-body">
-    <h5 class="card-title section-title mb-3">Active Alerts</h5>
-    <div class="alert alert-light d-flex justify-content-between align-items-center mb-0">
-      <span>No active alerts at the moment.</span>
-      <button class="btn-close" aria-label="Close"></button>
-    </div>
   </div>
 </div>
-
-</div>
-
-<!-- Live Scoring (Judges View) Below Overview -->
-
-<div class="col-lg-12">
-  <div class="row g-4">
-
-    <!-- Live Scoring - Left Side -->
-    <div class="col-md-8">
-      <div class="card event-card h-100">
-        <div class="card-body">
-          <h5 class="card-title section-title">Live Scoring - Judges Panel</h5>
-          <p class="text-muted">Real-time scores being submitted by judges for the current round: <strong>Semi-Finals</strong></p>
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>Judge</th>
-                <th>Contestant</th>
-                <th>Category</th>
-                <th>Score</th>
-                <th>Time</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Judge A</td>
-                <td>Contestant 4</td>
-                <td>Intelligence</td>
-                <td>9.0</td>
-                <td>Just now</td>
-              </tr>
-              <tr>
-                <td>Judge B</td>
-                <td>Contestant 2</td>
-                <td>Talent</td>
-                <td>8.8</td>
-                <td>1 min ago</td>
-              </tr>
-              <tr>
-                <td>Judge C</td>
-                <td>Contestant 5</td>
-                <td>Stage Presence</td>
-                <td>9.3</td>
-                <td>2 min ago</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- Communication Center - Right Side -->
-    <div class="col-md-4 d-flex flex-column gap-4">
-
-
-      <!-- Communication Center -->
-      <div class="card event-card">
-        <div class="card-body">
-          <h5 class="card-title section-title mb-3">Communication Center</h5>
-          <div class="form-floating mb-3">
-            <textarea class="form-control" placeholder="Type your message..." id="messageText" style="height: 100px"></textarea>
-            <label for="messageText">Type your message...</label>
-          </div>
-          <button class="btn btn-dark w-100">Send to All Judges</button>
-        </div>
-      </div>
-
-      <!-- Score Management -->
-      <div class="card event-card">
-        <div class="card-body">
-          <h5 class="card-title section-title mb-3">Score Management</h5>
-          <div class="mb-3">
-            <label for="roundSelect" class="form-label">Select Round</label>
-            <select class="form-select" id="roundSelect">
-              <option value="prelim">Preliminary</option>
-              <option value="semifinal" selected>Semi-Finals</option>
-              <option value="final">Finals</option>
-            </select>
-          </div>
-          <div class="d-flex gap-2 mb-3">
-            <button class="btn btn-primary flex-fill" onclick="startRound()">
-              <i class="bi bi-play-fill"></i> Start Round
-            </button>
-            <button class="btn btn-outline-secondary flex-fill">
-              <i class="bi bi-pause-fill"></i> Pause Scoring
-            </button>
-          </div>
-          <h6 class="mb-2">Quick Actions</h6>
-          <div class="d-grid gap-2">
-            <button class="btn btn-outline-dark btn-sm">
-              <i class="bi bi-pencil"></i> Override Scores
-            </button>
-            <button class="btn btn-outline-dark btn-sm">
-              <i class="bi bi-shuffle"></i> Reassign Judges
-            </button>
-          </div>
-        </div>
-      </div>
 
     </div>
   </div>
 </div>
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../../public/assets/js/main.js"></script>
+
+  <div class="app-container">
+
+  <?php include '../../includes/sidebar.php'; ?>
+  <?php include '../../includes/header.php'; ?>
+  <?php date_default_timezone_set('Asia/Manila'); ?>
+  <div class="main-content mt-4">
+  <div class="content-wrapper">
+    <div class="content-header">
+    </div>
+    <div class="search-filters-container mb-4">
+      <div class="row align-items-center">
+        <div class="col-md-4">
+          <div class="search-container">
+            <i class="bi bi-search search-icon"></i>
+            <input type="text" class="form-control search-input" placeholder="Search events...">
+          </div>
+        </div>
+        <div class="col-md-4 d-flex mt-3 mt-md-0">
+          <div class="dropdown me-2">
+            <button class="btn btn-outline-secondary dropdown-toggle filter-btn" type="button" id="statusDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              All Status
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="statusDropdown">
+              <li><a class="dropdown-item" href="#">All Status</a></li>
+              <li><a class="dropdown-item" href="#">Ongoing</a></li>
+              <li><a class="dropdown-item" href="#">Upcoming</a></li>
+              <li><a class="dropdown-item" href="#">Completed</a></li>
+            </ul>
+          </div>
+
+          <div class="custom-date-btn position-relative d-inline-block">
+            <label for="eventDateFilter" class="btn btn-outline-secondary filter-btn w-100 d-flex align-items-center gap-2" id="dateLabel">
+              <i class="bi bi-calendar3"></i> 
+              <span>Select Date</span>
+            </label>
+
+            <input type="date" id="eventDateFilter" class="position-absolute w-100 h-100" style="opacity: 0; top: 0; left: 0; cursor: pointer;">
+          </div>
+     
+  
+
+
+  
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+<div class="row">
+  <?php while ($ev = $result->fetch_assoc()): ?>
+    <?php
+      $day   = date('j',  strtotime($ev['start_date']));
+      $month = date('M',  strtotime($ev['start_date']));      
+      $time  = date('g:i A', strtotime($ev['time']));
+      $bg = '../../public/uploads/events/' . basename($ev['banner']);
+      $title = htmlspecialchars($ev['title']);
+      $status= htmlspecialchars($ev['status']);
+      $meta  = "{$ev['contestants']} Contestants, {$ev['judges']} Judges";
+    ?>
+    <div class="col-md-4 mb-4">
+    <div class="event-card modern-style"
+     data-bs-toggle="modal"
+     data-bs-target="#eventDetailsModal"
+     data-event-id="<?= $ev['event_id'] ?>">
+
+<div class="event-img-banner" style="background-image:url('<?= htmlspecialchars($bg) ?>')">
+          <div class="event-date">
+            <span class="day"><?= $day ?></span>
+            <span class="month"><?= $month ?></span>
+          </div>
+        </div>
+
+        <div class="event-info">
+          <div class="d-flex justify-content-between">
+            <h4 class="event-title mb-1"><?= $title ?></h4>
+            <span class="event-status <?= strtolower($status) ?>"><?= $status ?></span>
+          </div>
+          <p class="event-time"><?= $time ?></p>
+          <div class="event-meta"><?= $meta ?></div>
+        </div>
+      </div>
+    </div>
+  <?php endwhile; ?>
+</div>
+
+
+      </div>
+    </div>
+  </div>
+ <script>
+document.querySelectorAll('.event-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const eventId = card.getAttribute('data-event-id');
+    const eventStatus = card.querySelector('.event-status').textContent.trim().toLowerCase();
+    const scoreArea = document.getElementById('scoreTableArea');
+    const viewBtn = document.getElementById("viewFullPageBtn");
+
+    if (eventStatus === 'completed') {
+      // Show score table
+      scoreArea.innerHTML = "Loading scores...";
+      viewBtn.style.display = "inline-block"; // show the view full page button
+      viewBtn.href = `../../public/admin/view_score.php?event_id=${eventId}`;
+
+      fetch(`fetch_scores.php?event_id=${eventId}`)
+        .then(response => response.text())
+        .then(html => {
+          scoreArea.innerHTML = html;
+        })
+        .catch(err => {
+          console.error("Error loading scores:", err);
+          scoreArea.innerHTML = "<div class='text-danger'>Failed to load scores.</div>";
+        });
+    } else {
+      // Show message for Ongoing/Upcoming
+      viewBtn.style.display = "none"; // hide view full page button
+      const message = eventStatus === 'ongoing'
+        ? "<div class='alert alert-info'>Scoring is currently in progress for this event.</div>"
+        : "<div class='alert alert-warning'>This event hasn't started yet. Please check back later.</div>";
+      scoreArea.innerHTML = message;
+    }
+  });
+});
+</script>
+
+
+<script src="../../public/assets/js/events.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
-
 </html>

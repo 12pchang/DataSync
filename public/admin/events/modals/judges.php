@@ -127,6 +127,10 @@
 
 </style>
 
+<div class="col-md-6">
+      <h2>Judges</h2>
+    </div>
+
 <div class="d-flex justify-content-between align-items-center mb-4">
   <div class="search-judges-container">
     <input type="text" class="form-control" placeholder="Search Judges..." id="searchJudges">

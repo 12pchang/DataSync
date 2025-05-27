@@ -384,6 +384,8 @@ body {
   }
 }
 
+
+
 @media (max-width: 576px) {
   .scoring-content .row > div {
     margin-bottom: 15px;

@@ -217,7 +217,7 @@
       </div>
 
       <div class="footer">
-        <p class="mb-0">© 2025 National Talent Awards. All scores are confidential and property of the organization.</p>
+        <p class="mb-0">© 2025 DataSync. All scores are confidential and property of the organization.</p>
       </div>
     </div>
   </div>

@@ -75,6 +75,12 @@
     border-color: #1C8BF9;
     color: white;
   }
+
+  .start-100 {
+  left: 100%;
+  transform: translateX(-100%);
+}
+
 </style>
 
 <!-- Modal Wizard -->
@@ -92,7 +98,7 @@
           <!-- Wizard Step Progress Bar -->
           <div class="position-relative wizard-progress-container m-3">
             <div class="progress" role="progressbar" aria-label="Progress" style="height: 2px;">
-              <div class="progress-bar" style="background-color: rgba(28, 139, 249, 0.25);; width: 20%;"></div>
+              <div class="progress-bar" style="background-color: rgba(28, 139, 249, 0.25); width: 20%;"></div>
             </div>
             <button type="button" class="position-absolute top-0 start-0 translate-middle btn step-pill active"><span>1</span></button>
             <button type="button" class="position-absolute top-0 start-25 translate-middle btn step-pill"><span>2</span></button>
@@ -179,26 +185,110 @@
 
     // Next button click handler
     nextBtn.addEventListener('click', function () {
-      if (currentStep < stepIds.length) {
-        // Mark current pill as completed
-        pills[currentStep - 1].classList.remove('active');
-        pills[currentStep - 1].classList.add('completed');
+  const currentPaneId = stepIds[currentStep - 1];
+  const currentPane = document.getElementById(currentPaneId);
+  const optionalSteps = ['rounds']; // 'rounds' step is optional
 
-        // Advance to next step
-        currentStep++;
-        pills[currentStep - 1].classList.add('active');
-        progressBar.style.width = `${currentStep * 20}%`;
+let valid = true;
 
-        // Toggle buttons
-        prevBtn.disabled = false;
-        if (currentStep === stepIds.length) {
-          nextBtn.classList.add('d-none');
-          finishBtn.classList.remove('d-none');
+if (!optionalSteps.includes(currentPaneId)) {
+  const inputs = currentPane.querySelectorAll('input, select, textarea');
+
+  // Custom validation for 'criteria' step
+  if (currentPaneId === 'criteria') {
+    const tableBody = currentPane.querySelector('#criteriaTableBody');
+    const rows = tableBody.querySelectorAll('tr');
+
+    if (rows.length === 0) {
+      alert("Please add at least one criterion.");
+      valid = false;
+    } else {
+      let totalWeight = 0;
+      rows.forEach(row => {
+        const weightInput = row.querySelector('.weight-input'); // Make sure this class exists on your input
+        const weightValue = parseFloat(weightInput?.value || 0);
+
+        if (isNaN(weightValue) || weightValue <= 0) {
+          weightInput?.classList.add('is-invalid');
+          valid = false;
+        } else {
+          weightInput?.classList.remove('is-invalid');
+          totalWeight += weightValue;
         }
+      });
 
-        showStep(currentStep);
+      if (totalWeight !== 100) {
+        alert("Total weight must equal 100%.");
+        valid = false;
+      }
+    }
+
+    if (!valid) return;
+  } else {
+    // Default validation for other steps
+    if (inputs.length > 0) {
+      inputs.forEach(input => {
+        if (!input.value.trim()) {
+          input.classList.add('is-invalid');
+          valid = false;
+        } else {
+          input.classList.remove('is-invalid');
+        }
+      });
+
+      if (!valid) return;
+    }
+  }
+}
+
+
+
+  // Continue with step transition
+  pills[currentStep - 1].classList.remove('active');
+  pills[currentStep - 1].classList.add('completed');
+  currentStep++;
+  pills[currentStep - 1].classList.add('active');
+  progressBar.style.width = `${currentStep * 20}%`;
+
+  prevBtn.disabled = false;
+  if (currentStep === stepIds.length) {
+    nextBtn.classList.add('d-none');
+    finishBtn.classList.remove('d-none');
+  }
+
+  showStep(currentStep);
+});
+
+
+finishBtn.addEventListener('click', function (e) {
+  e.preventDefault(); // Prevent default form submission
+
+  let allValid = true;
+
+  stepIds.forEach(stepId => {
+    const pane = document.getElementById(stepId);
+    const inputs = pane.querySelectorAll('input, select, textarea');
+
+    inputs.forEach(input => {
+      if (!input.value.trim()) {
+        input.classList.add('is-invalid');
+        allValid = false;
+      } else {
+        input.classList.remove('is-invalid');
       }
     });
+  });
+
+  if (!allValid) {
+    alert('Please fill in all required fields before submitting.');
+    return;
+  }
+
+
+  document.getElementById('eventWizardForm').submit();
+});
+
+
 
     // Previous button click handler
     prevBtn.addEventListener('click', function () {
@@ -223,5 +313,32 @@
       }
     });
   });
+
+  document.getElementById('eventWizardForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const form = e.target;
+  const formData = new FormData(form);
+
+  fetch('../../ajax/create_event.php', {
+    method: 'POST',
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      alert("Event created successfully!");
+      // Optionally refresh or close modal
+      location.reload();
+    } else {
+      alert("Error: " + data.message);
+    }
+  })
+  .catch(err => {
+    console.error(err);
+    alert("AJAX error occurred.");
+  });
+});
+
 </script>
 
